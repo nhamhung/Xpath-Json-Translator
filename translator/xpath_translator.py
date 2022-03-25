@@ -1,8 +1,11 @@
+from __future__ import unicode_literals, print_function, absolute_import, division, generators, nested_scopes
 from jsonpath_ng.ext import parse
-from xpath_lexer import *
 import json
 import pymongo
 from bson.json_util import dumps
+import sys
+sys.path.append('../xpath')
+from xpath import xpath_lexer
 
 def extract_count(tokens):
     bracket_count = 1
@@ -57,7 +60,7 @@ def lr_recurse(tokens, result):
         return lr_recurse(tokens, result)
 
 def evaluate_xpath_query(xpath_query, json_data):
-    lexer = XpathLexer()
+    lexer = xpath_lexer.XpathLexer()
     xpath_tokens = list(lexer.tokenize(xpath_query))
     jsonpath_query = lr_recurse(xpath_tokens, "$")
     print("JSON QUERY: ", jsonpath_query)
@@ -81,7 +84,7 @@ if __name__ == '__main__':
 
     # xpath_query = "count(//store/book[price > 10 and price < 20])"
     # xpath_query = "//store[count(book)>2]"
-    xpath_query = "//store/book[price>10]"
+    xpath_query = "//store/book[price>=10]"
     # lexer = XpathLexer()
     # print(lr_recurse(list(lexer.tokenize(xpath_query)), "$"))
     print(evaluate_xpath_query(xpath_query, json_data))

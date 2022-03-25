@@ -1,0 +1,135 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    COUNT
+    DOUBLECOLON
+    LESSEQUAL
+    MOREEQUAL
+    NUMBER
+    OR
+
+Grammar
+
+Rule 0     S' -> xpath
+Rule 1     xpath -> xpath / xpath
+Rule 2     xpath -> xpath DOUBLESLASH xpath
+Rule 3     xpath -> field
+Rule 4     field -> ID
+
+Terminals, with rules where they appear
+
+/                    : 1
+AND                  : 
+COUNT                : 
+DOUBLECOLON          : 
+DOUBLESLASH          : 2
+ID                   : 4
+LESSEQUAL            : 
+MOREEQUAL            : 
+NUMBER               : 
+OR                   : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+field                : 3
+xpath                : 1 1 2 2 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . xpath
+    (1) xpath -> . xpath / xpath
+    (2) xpath -> . xpath DOUBLESLASH xpath
+    (3) xpath -> . field
+    (4) field -> . ID
+
+    ID              shift and go to state 3
+
+    xpath                          shift and go to state 1
+    field                          shift and go to state 2
+
+state 1
+
+    (0) S' -> xpath .
+    (1) xpath -> xpath . / xpath
+    (2) xpath -> xpath . DOUBLESLASH xpath
+
+    /               shift and go to state 4
+    DOUBLESLASH     shift and go to state 5
+
+
+state 2
+
+    (3) xpath -> field .
+
+    /               reduce using rule 3 (xpath -> field .)
+    DOUBLESLASH     reduce using rule 3 (xpath -> field .)
+    $end            reduce using rule 3 (xpath -> field .)
+
+
+state 3
+
+    (4) field -> ID .
+
+    /               reduce using rule 4 (field -> ID .)
+    DOUBLESLASH     reduce using rule 4 (field -> ID .)
+    $end            reduce using rule 4 (field -> ID .)
+
+
+state 4
+
+    (1) xpath -> xpath / . xpath
+    (1) xpath -> . xpath / xpath
+    (2) xpath -> . xpath DOUBLESLASH xpath
+    (3) xpath -> . field
+    (4) field -> . ID
+
+    ID              shift and go to state 3
+
+    xpath                          shift and go to state 6
+    field                          shift and go to state 2
+
+state 5
+
+    (2) xpath -> xpath DOUBLESLASH . xpath
+    (1) xpath -> . xpath / xpath
+    (2) xpath -> . xpath DOUBLESLASH xpath
+    (3) xpath -> . field
+    (4) field -> . ID
+
+    ID              shift and go to state 3
+
+    xpath                          shift and go to state 7
+    field                          shift and go to state 2
+
+state 6
+
+    (1) xpath -> xpath / xpath .
+    (1) xpath -> xpath . / xpath
+    (2) xpath -> xpath . DOUBLESLASH xpath
+
+    /               reduce using rule 1 (xpath -> xpath / xpath .)
+    DOUBLESLASH     reduce using rule 1 (xpath -> xpath / xpath .)
+    $end            reduce using rule 1 (xpath -> xpath / xpath .)
+
+  ! /               [ shift and go to state 4 ]
+  ! DOUBLESLASH     [ shift and go to state 5 ]
+
+
+state 7
+
+    (2) xpath -> xpath DOUBLESLASH xpath .
+    (1) xpath -> xpath . / xpath
+    (2) xpath -> xpath . DOUBLESLASH xpath
+
+    DOUBLESLASH     reduce using rule 2 (xpath -> xpath DOUBLESLASH xpath .)
+    $end            reduce using rule 2 (xpath -> xpath DOUBLESLASH xpath .)
+    /               shift and go to state 4
+
+  ! /               [ reduce using rule 2 (xpath -> xpath DOUBLESLASH xpath .) ]
+  ! DOUBLESLASH     [ shift and go to state 5 ]
+
