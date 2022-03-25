@@ -1,7 +1,10 @@
-import ply.lex
+from __future__ import unicode_literals, print_function, absolute_import, division, generators, nested_scopes
+import sys
 import logging
-logger = logging.getLogger(__name__)
 
+import ply.lex
+
+logger = logging.getLogger(__name__)
 
 class XpathLexer(object):
     '''
