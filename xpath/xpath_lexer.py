@@ -30,17 +30,19 @@ class XpathLexer(object):
         if new_lexer.string_value is not None:
             raise Exception('Unexpected EOF in string literal or identifier')
 
-    literals = ['/', '[', ']', '>', '<', '(', ')']
+    literals = ['/', '[', ']', '>', '<', '(', ')', '=', '.', "'", ' ']
 
-    reserved_words = {'and': 'AND', 'or': 'OR', 'count': 'COUNT'}
+    reserved_words = {'and': 'AND', 'or': 'OR', 'count': 'COUNT', 'child' : 'CHILD', 'descendant' : 'DESCENDANT', 'last' : 'LAST'}
 
-    tokens = ['ID', 'DOUBLESLASH', 'DOUBLECOLON', 'NUMBER', 'MOREEQUAL', 'LESSEQUAL'] + list(reserved_words.values())
+    tokens = ['ID', 'DOUBLESLASH', 'DOUBLECOLON', 'NUMBER', 'MOREEQUAL', 'LESSEQUAL', 'NOTEQUAL'] + list(reserved_words.values())
 
     t_DOUBLESLASH = r'\/\/'
     t_DOUBLECOLON = r'\:\:'
     t_MOREEQUAL = r'\>\='
     t_LESSEQUAL = r'\<\='
-    t_ignore = ' \t'
+    t_NOTEQUAL = r'\!\='
+    # t_BRACKETS = r'\(\)'
+    t_ignore = '\t'
 
     def t_ID(self, t):
         r'[a-zA-Z_@][a-zA-Z0-9_@\-]*'
